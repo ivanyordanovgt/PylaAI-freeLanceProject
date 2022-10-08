@@ -60,11 +60,14 @@ class PylaStart:
                                                        onSuccess='Accepted match.',
                                                        onError='Waiting to accept to show up', threshold=0.5,
                                                        bonusX=self.bonusX - 50, bonusY=self.bonusY - 20),
+            'pickChampion': lambda: self.pickChampion('Picked champion', 'Looking for champions to pick..'),
             'lockIn': lambda: self.__look_for_template(self.screenshot, self.lockInBtn, 'detectGameStart',
                                                        onSuccess='Locked in champion',
                                                        onError='Trying to lock in...',
                                                        bonusX=self.bonusX,
                                                        bonusY=self.bonusY),
+            'detectGameStart': lambda: self.detectGameStart(),
+            'findNewGame': lambda: self.findNewGame(),
             'end': lambda: print('Game detected lets play!'),  # This message doesn't matter it won't be used anywhere
 
         }
@@ -93,6 +96,17 @@ class PylaStart:
             self.progressState = progressState
             return onSuccess
         return onError     
+
+    def click(x, y, l=False, r=False):
+        win32api.SetCursorPos((x, y))
+
+        if l:
+            win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0)
+            win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0)
+        if r:
+            win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTDOWN, 0, 0)
+            win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTUP, 0, 0)
+        time.sleep(0.1)
 
     def start(self, image):
         self.originalImage = image
