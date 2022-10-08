@@ -50,13 +50,34 @@ class PylaStart:
         self.bonusY = 310
         self.champBonus = 60    
 
+    def __look_for_template(self, image, template, progressState=None, threshold=0.7, onSuccess=None, onError=None,
+                            static=False,
+                            bonusX=None, bonusY=None, dontClick=False, clickAway=False):
+        if bonusX:
+            bonusX = bonusX
+            bonusY = bonusY
+        else:
+            bonusX = self.bonusX
+            bonusY = self.bonusY  # Default readjusting
+        x, y = self.findImageInClient(image, template)
+        if x:
+            time.sleep(0.3)
+            if static:
+                if not dontClick:
+                    self.click(x + bonusX, y + bonusY, l=True)
+                    if clickAway:
+                        time.sleep(0.1)
+                        self.click(400, 350)
+                        time.sleep(3)
+                return True
+            self.click(x + bonusX, y + bonusY, l=True)
+            self.progressState = progressState
+            return onSuccess
+        return onError     
 
     def start(self, image):
         self.originalImage = image
         image = image[240:870, 450:1300]
         self.screenshot = image
-        self.startGameOptions[self.progressState]()
-        print(self.progressState)
-        self.clickCount += 1
         time.sleep(0.1)
         return message
