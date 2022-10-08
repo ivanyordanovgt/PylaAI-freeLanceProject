@@ -50,6 +50,25 @@ class PylaStart:
         self.bonusY = 310
         self.champBonus = 60    
 
+        self.startGameOptions = {
+            'start': lambda: self.__look_for_template(self.screenshot, self.playBtn, 'confirm'),
+            'confirm': lambda: self.__look_for_template(self.screenshot, self.confirmBtn, 'find'),
+            'find': lambda: self.__look_for_template(self.screenshot, self.findMatchBtn, 'accept',
+                                                     onSuccess='Pressed find match',
+                                                     onError='Trying to locate find match'),
+            'accept': lambda: self.__look_for_template(self.screenshot, self.acceptBtn, 'pickChampion',
+                                                       onSuccess='Accepted match.',
+                                                       onError='Waiting to accept to show up', threshold=0.5,
+                                                       bonusX=self.bonusX - 50, bonusY=self.bonusY - 20),
+            'lockIn': lambda: self.__look_for_template(self.screenshot, self.lockInBtn, 'detectGameStart',
+                                                       onSuccess='Locked in champion',
+                                                       onError='Trying to lock in...',
+                                                       bonusX=self.bonusX,
+                                                       bonusY=self.bonusY),
+            'end': lambda: print('Game detected lets play!'),  # This message doesn't matter it won't be used anywhere
+
+        }
+
     def __look_for_template(self, image, template, progressState=None, threshold=0.7, onSuccess=None, onError=None,
                             static=False,
                             bonusX=None, bonusY=None, dontClick=False, clickAway=False):
