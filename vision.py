@@ -35,6 +35,8 @@ class Pyla:
         self.original_image = None
         self.AI = {
             'nothing': lambda: True,
+            'detectGameStart': self.detectGameStart,
+
         }
         self.enemyCoords = []
         self.show_count = 0
@@ -43,6 +45,18 @@ class Pyla:
 
         keyboard.on_press_key("x", lambda _: self.__turn_of_bot())
 
+    def detectGameStart(self):
+        print("?")
+        resultBoolean, loc = self.findImage(self.shopImage, threshold=0.7)
+        if not resultBoolean:
+            result, _ = self.findImage(self.acceptButton, threshold=0.7)
+            if result is True:
+                return 'break'
+            time.sleep(0.5)
+            return
+        print('found shop!')
+        self.buyItems()
+        self.command = 'goToLane'
 
     def AIcontroller(self, game_image=None):
         click_coords = []
