@@ -45,6 +45,20 @@ class Pyla:
 
         keyboard.on_press_key("x", lambda _: self.__turn_of_bot())
 
+    def recall(self):
+        time.sleep(0.5)
+        startY = 640
+        endY = 680
+        startX = 927
+        endX = 980
+
+        self.click(1300, 900, r=True)
+        time.sleep(8)
+        os.startfile('b.ahk')
+        time.sleep(8.8)
+        self.buyItems()
+        self.lastRecall = time.time()
+
     def buyItems(self):
         keyboard.startfile('p.ahk')
         time.sleep(0.3)
