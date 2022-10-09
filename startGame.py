@@ -107,8 +107,14 @@ class PylaStart:
 
     def detectGameStart(self):
         resultBoolean = self.__look_for_template(self.screenshot, self.shopImage, 'end', static=True, dontClick=True)
-        
-        if resultBoolean:
+        dodgedGame = self.__look_for_template(self.screenshot, self.acceptBtn, progressState='pickChampion',
+                                              onSuccess=True, onError=False),
+
+        if dodgedGame is True:
+            print("SOMEONE DODGED")
+            self.progressState = 'pickChampion'
+            return 'Someone dodged! Accepting again!'
+        elif resultBoolean:
             self.progressState = 'end'
             return 'Game started!'
         return 'Waiting for game to start' 
