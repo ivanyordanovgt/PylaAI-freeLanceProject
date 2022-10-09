@@ -119,6 +119,53 @@ class PylaStart:
             return 'Game started!'
         return 'Waiting for game to start' 
 
+    def refreshNewGameCommands(self):
+        self.commands = [
+            lambda image: self.__look_for_template(self.originalImage[170:700, 350:1600], self.xBtn, threshold=0.6,
+                                                   static=True,
+                                                   bonusX=370, bonusY=204),
+            lambda image: self.__look_for_template(image, self.arrowBtn, threshold=0.6, static=True,
+                                                   bonusX=self.bonusX - 50, bonusY=self.bonusY - 50),
+
+            lambda image: self.__look_for_template(image, self.okBtn, threshold=0.6, static=True,
+                                                   bonusX=self.bonusX - 50, bonusY=self.bonusY - 50),
+
+            lambda image: self.__look_for_template(image, self.continueBtn, threshold=0.45, static=True,
+                                                   bonusX=self.bonusX - 50, bonusY=self.bonusY - 0, clickAway=True),
+
+            lambda image: self.__look_for_template(image, self.playAgainBtn, progressState='find',
+                                                   onSuccess=True, onError=False,
+                                                   threshold=0.6, bonusX=self.bonusX - 50, bonusY=self.bonusY - 50)]
+
+    def findNewGame(self):
+        """
+        1. check for X and for -> in circle
+        2. (optional) check for daily play
+        3. Look for continue button
+        4. Look for play again
+        5. Stop play and go to start
+        image, template, progressState=None, threshold=0.7, onSuccess=None, onError=None,
+                            static=False
+        """
+        image = self.originalImage[170:990, 350:1600]
+
+        index = 0
+        # Any of the images can occur at any time but ONCE! So we will continue to look for each one.
+        # If playAgainBtn is found the code will start from the find function
+        self.__look_for_template(image, self.bigOkBtn, threshold=0.6, static=True, bonusX=self.bonusX - 140,
+                                 bonusY=self.bonusY - 78),
+        for command in self.commands:
+            if command(image):
+                self.commands.pop(index)
+                if self.progressState == 'find':
+                    break
+                time.sleep(5)
+            index += 1
+        if len(self.commands) <= 2:
+            self.tries += 1
+            if self.tries == 8:
+                self.progressState = 'find'
+
     def pickChampion(self, onSuccess, onError):
         champions = list(self.championOptions.keys())
         championKey = champions[self.championIndex]
