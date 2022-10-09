@@ -45,6 +45,18 @@ class Pyla:
 
         keyboard.on_press_key("x", lambda _: self.__turn_of_bot())
 
+    def buyItems(self):
+        keyboard.startfile('p.ahk')
+        time.sleep(0.3)
+        self.click(809, 500, click=True, l=True)
+        pyautogui.rightClick()
+        pyautogui.rightClick()
+        mouse.right_click()
+        time.sleep(0.3)
+        os.startfile('p.ahk')
+        time.sleep(0.1)
+        self.command = 'play'
+
     def detectGameStart(self):
         print("?")
         resultBoolean, loc = self.findImage(self.shopImage, threshold=0.7)
