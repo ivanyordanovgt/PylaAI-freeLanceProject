@@ -66,11 +66,19 @@ class PylaStart:
                                                        onError='Trying to lock in...',
                                                        bonusX=self.bonusX,
                                                        bonusY=self.bonusY),
-            'detectGameStart': lambda: self.detectGameStart(),
-            'findNewGame': lambda: self.findNewGame(),
             'end': lambda: print('Game detected lets play!'),  # This message doesn't matter it won't be used anywhere
 
         }
+
+    def findImageInClient(self, image, template, threshold=0.65):
+        img_rgb = image
+        w, h = template.shape[:-1]
+
+        res = cv2.matchTemplate(img_rgb, template, cv2.TM_CCOEFF_NORMED)
+        loc = np.where(res >= threshold)
+        for pt in zip(*loc[::-1]):  # Switch collumns and rows
+            return pt[0], pt[1]
+        return False, False
 
     def __look_for_template(self, image, template, progressState=None, threshold=0.7, onSuccess=None, onError=None,
                             static=False,
@@ -97,6 +105,30 @@ class PylaStart:
             return onSuccess
         return onError     
 
+    def pickChampion(self, onSuccess, onError):
+        champions = list(self.championOptions.keys())
+        championKey = champions[self.championIndex]
+        champion = self.championOptions[championKey]
+
+        self.startGameOptions['accept']()
+        if self.pickChampionTries > self.tryToFindChampionMaxCycles:
+            self.championIndex += 1
+            if len(champions) == self.championIndex:
+                self.championIndex = 0
+            self.pickChampionTries = 0
+
+        # If someone dodges the game we will have to look for accept again
+        x, y = self.findImageInClient(self.screenshot, champion)
+        if x:
+            self.pickChampionTries = 0
+            self.championIndex = 0
+            self.click(x + self.bonusX - self.champBonus, y + self.bonusY, l=True)
+            self.progressState = 'lockIn'
+            return onSuccess
+        self.pickChampionTries += 1
+        return onError
+
+    @staticmethod
     def click(x, y, l=False, r=False):
         win32api.SetCursorPos((x, y))
 
