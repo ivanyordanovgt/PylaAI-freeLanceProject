@@ -103,7 +103,15 @@ class PylaStart:
             self.click(x + bonusX, y + bonusY, l=True)
             self.progressState = progressState
             return onSuccess
-        return onError     
+        return onError    
+
+    def detectGameStart(self):
+        resultBoolean = self.__look_for_template(self.screenshot, self.shopImage, 'end', static=True, dontClick=True)
+        
+        if resultBoolean:
+            self.progressState = 'end'
+            return 'Game started!'
+        return 'Waiting for game to start' 
 
     def pickChampion(self, onSuccess, onError):
         champions = list(self.championOptions.keys())
