@@ -59,6 +59,29 @@ class Pyla:
         self.buyItems()
         self.lastRecall = time.time()
 
+    def findAllyMinions(self):
+        threshold = 0.5
+        result = self.findImage(self.mageMinion, threshold), \
+                 self.findImage(self.mageMinion2, threshold), \
+                 self.findImage(self.mageMinion4, threshold), \
+                 self.findImage(self.meleMinion, threshold), \
+                 self.findImage(self.meleMinion2, threshold), \
+                 self.findImage(self.meleMinion3, threshold)
+
+        resultBooleans = [x[0] for x in result]
+        minionCoords = [x[1] for x in result]
+        print('minion coords', minionCoords[0])
+        for coords in minionCoords:
+            for pt in zip(*coords[::-1]):  # Switch collumns and rows
+                if pt[0] - 10 > self.playerCoords[0]:
+                    # print(pt[0], self.playerCoords[0])
+                    print('MINION IS IN FRONT')
+                    return True
+        # if True in resultBooleans:
+        #     print('FOUND MINION', random.randint(1, 10000))
+        #     return True
+        return False
+
     def buyItems(self):
         keyboard.startfile('p.ahk')
         time.sleep(0.3)
