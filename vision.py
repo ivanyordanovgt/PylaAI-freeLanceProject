@@ -45,6 +45,23 @@ class Pyla:
 
         keyboard.on_press_key("x", lambda _: self.__turn_of_bot())
 
+    def loadImages(self):
+        self.shopImage = cv2.imread('images/shop.JPG')
+        self.mageMinion = cv2.imread('images/mageMinion.JPG')
+        self.mageMinion2 = cv2.imread('images/mageMinion2.JPG')
+        self.mageMinion4 = cv2.imread('images/mageMinion4.JPG')
+        self.meleMinion = cv2.imread('images/fighterMinion.JPG')
+        self.meleMinion2 = cv2.imread('images/fighterMinion2.JPG')
+        self.meleMinion3 = cv2.imread('images/fighterMinion3.JPG')
+        self.Button = cv2.imread('images/acceptBtn.JPG')
+
+        self.xBtn = cv2.imread('images/xBtn.JPG')
+        self.okBtn = cv2.imread('images/okBtn.JPG')
+        self.arrowBtn = cv2.imread('images/arrowBtn.JPG')
+        self.continueBtn = cv2.imread('images/continueBtn.JPG')
+        self.playAgainBtn = cv2.imread('images/playAgainBtn.JPG')
+
+
     def recall(self):
         time.sleep(0.5)
         startY = 640
