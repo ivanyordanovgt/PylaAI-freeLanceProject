@@ -198,6 +198,9 @@ class Pyla:
             rectangles.append(rect)
         return cv2.groupRectangles(rectangles, groupThreshold=3, eps=0.9)
 
+    def getHP(self):
+        pass
+
     def playByFollowAlly(self):
         clickMap = True
         click_coords = []
