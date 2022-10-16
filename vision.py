@@ -198,6 +198,19 @@ class Pyla:
             rectangles.append(rect)
         return cv2.groupRectangles(rectangles, groupThreshold=3, eps=0.9)
 
+
+    def buyItems(self):
+        os.startfile('p.ahk')
+        time.sleep(0.3)
+        self.click(809, 500, click=True, l=True)
+        pyautogui.rightClick()
+        pyautogui.rightClick()
+        mouse.right_click()
+        time.sleep(0.3)
+        os.startfile('p.ahk')
+        time.sleep(0.1)
+        self.command = 'followAlly'
+
     def getHP(self):
         startY = 840
         endY = 860
@@ -226,6 +239,7 @@ class Pyla:
         clickMap = True
         click_coords = []
         cropped_pic = self.game_image
+        
 
         self.check_if_game_ended_counter += 1
 
