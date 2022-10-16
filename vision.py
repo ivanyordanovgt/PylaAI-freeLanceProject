@@ -61,6 +61,41 @@ class Pyla:
         self.continueBtn = cv2.imread('images/continueBtn.JPG')
         self.playAgainBtn = cv2.imread('images/playAgainBtn.JPG')
 
+    def clickTower(self):
+        self.click(1352, 825, r=True)
+    
+    def goToLane(self):
+        # 1. Go to lane
+        # 2. Attack minions
+        # 3. Stay away from tower
+        # 4. If low hp go back
+
+        clickMap = True
+        click_coords = []
+        cropped_pic = self.game_image
+
+        if not self.findAllyMinions():
+            self.clickTower()
+            self.timer = 0
+
+            return
+
+        minionCoords = self.controller[self.findMinions](cropped_pic)
+        minionRectangles, weights = self.extractRectangles(minionCoords)
+        minionCount = len(minionRectangles)
+
+        if minionCount > 0:
+            coords = self.drawResults(minionRectangles, self.game_image)
+            self.click(*coords[0], r=True)
+            clickMap = False
+            os.startfile('w.ahk')
+
+        elif clickMap:
+            self.click(1110, 440, r=True)
+
+        return click_coords, (self.center_x_player, self.center_y_player)
+
+
 
     def recall(self):
         time.sleep(0.5)
