@@ -38,6 +38,13 @@ class Pyla:
             'detectGameStart': self.detectGameStart,
 
         }
+
+        self.controller = {
+            'detectMinions': self.detectMinions,
+            'detectChampions': self.detectChampions,
+            'nothing': lambda x: [],
+        }
+
         self.enemyCoords = []
         self.show_count = 0
         self.findMinions = 'detectMinions'
@@ -183,7 +190,28 @@ class Pyla:
                 pass
 
     def playByFollowAlly(self):
-        pass    
+        clickMap = True
+        click_coords = []
+        cropped_pic = self.game_image
+
+        self.check_if_game_ended_counter += 1
+
+        if self.check_if_game_ended_counter == 12:
+            self.check_if_game_ended_counter = 0
+            self.keyboard.press(Key.ctrl.value)
+            self.keyboard.press('q')
+            self.keyboard.press('w')
+            self.keyboard.press('e')
+            self.keyboard.release(Key.ctrl.value)
+            """
+            Every 12 cycles this will check if the game has ended and
+            Upgrade abilities of the champion by pressing Q, W and E
+            """
+            os.startfile('w.ahk')
+            if self.checkIfGameEnded():
+                return True
+
+       
 
     def buyItems(self):
         keyboard.startfile('p.ahk')
