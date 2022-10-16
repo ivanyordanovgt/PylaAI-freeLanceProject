@@ -1,5 +1,5 @@
 import os
-
+from extractText import extractText
 import mouse
 import pyautogui
 import time
@@ -199,7 +199,28 @@ class Pyla:
         return cv2.groupRectangles(rectangles, groupThreshold=3, eps=0.9)
 
     def getHP(self):
-        pass
+        startY = 840
+        endY = 860
+        startX = 860
+        endX = 940
+        reworkedImage = self.original_image[startY:endY, startX:endX]
+        text = extractText(reworkedImage)
+        print('TEXT', text)
+        if text:
+            text = text.split('/')
+            currentHP = None
+            maxHP = None
+            try:
+                currentHP = float(''.join([x for x in text[0] if x.isnumeric()]))
+                maxHP = float(''.join([x for x in text[1] if x.isnumeric()]))
+                self.currentHP = currentHP
+                self.maxHP = maxHP
+                return currentHP, maxHP
+            except:
+                self.currentHP = None
+                self.maxHP = None
+            return None
+        return None
 
     def playByFollowAlly(self):
         clickMap = True
