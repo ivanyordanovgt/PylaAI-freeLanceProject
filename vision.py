@@ -61,8 +61,33 @@ class Pyla:
         self.continueBtn = cv2.imread('images/continueBtn.JPG')
         self.playAgainBtn = cv2.imread('images/playAgainBtn.JPG')
 
-    def clickTower(self):
-        self.click(1352, 825, r=True)
+
+    def checkIfGameEnded(self):
+        """
+        1. check for X and for -> in circle
+        2. (optional) check for daily play
+        3. Look for continue button
+        4. Look for play again
+        5. Stop play and go to start
+        """
+        # self.xBtn - !
+        # self.okBtn - !
+        # self.arrowBtn - !
+        message = 'STOP'
+        start_y, end_y = 80, 880
+        start_x, end_x = 420, 1370
+        result = False
+        memory = self.game_image
+        self.game_image = self.original_image[start_y + 80:end_y, start_x:end_x]
+        if True in self.findImage(self.arrowBtn, threshold=0.5):
+            print('ARROW BTN!')
+            result = True
+        elif True in self.findImage(self.okBtn, 0.7):
+            result = True
+        elif True in self.findImage(self.xBtn, 0.7):
+            result = True
+        self.game_image = memory
+        return result
     
     def goToLane(self):
         # 1. Go to lane
@@ -74,7 +99,8 @@ class Pyla:
         click_coords = []
         cropped_pic = self.game_image
 
-        if not self.findAllyMinions():
+
+        elif not self.findAllyMinions():
             self.clickTower()
             self.timer = 0
 
