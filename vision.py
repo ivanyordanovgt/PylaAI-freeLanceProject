@@ -198,6 +198,35 @@ class Pyla:
             rectangles.append(rect)
         return cv2.groupRectangles(rectangles, groupThreshold=3, eps=0.9)
 
+    def recall(self):
+        time.sleep(0.5)
+        startY = 640
+        endY = 680
+        startX = 927
+        endX = 980
+
+        self.click(1300, 900, r=True)
+        time.sleep(8)
+        os.startfile('b.ahk')
+        time.sleep(8.8)
+        self.buyItems()
+        self.lastRecall = time.time()
+        # image = self.original_image
+        # image = image[startY:endY, startX:endX]
+        # findRecallText = extractText(image).strip()
+        # print('TEXT IS ', findRecallText)
+        # print(self.maxHP, self.currentHP)
+        # if findRecallText != 'Recall':
+        #     print('im in')
+        #     self.clickTower()
+        #     time.sleep(2)
+        #     os.startfile('b.ahk')
+        #     resultBoolean, _ = self.findImage(self.shopImage, threshold=0.6)
+        #     if resultBoolean is True:
+        #         print('FOUND TOWER!!!')
+        #         self.buyItems()
+        #         self.lastRecall = time.time()
+        #     time.sleep(2)
 
     def buyItems(self):
         os.startfile('p.ahk')
