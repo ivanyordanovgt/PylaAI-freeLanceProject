@@ -89,7 +89,7 @@ class Pyla:
         self.game_image = memory
         return result
     
-    def goToLane(self):
+        def goToLane(self):
         # 1. Go to lane
         # 2. Attack minions
         # 3. Stay away from tower
@@ -99,6 +99,12 @@ class Pyla:
         click_coords = []
         cropped_pic = self.game_image
 
+        self.check_if_game_ended_counter += 1
+
+        if self.check_if_game_ended_counter == 12:
+            self.check_if_game_ended_counter = 0
+            if self.checkIfGameEnded():
+                return True
 
         elif not self.findAllyMinions():
             self.clickTower()
