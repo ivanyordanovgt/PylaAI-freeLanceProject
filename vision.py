@@ -89,7 +89,7 @@ class Pyla:
         self.game_image = memory
         return result
     
-        def goToLane(self):
+    def goToLane(self):
         # 1. Go to lane
         # 2. Attack minions
         # 3. Stay away from tower
@@ -109,18 +109,8 @@ class Pyla:
         elif not self.findAllyMinions():
             self.clickTower()
             self.timer = 0
-
             return
 
-        minionCoords = self.controller[self.findMinions](cropped_pic)
-        minionRectangles, weights = self.extractRectangles(minionCoords)
-        minionCount = len(minionRectangles)
-
-        if minionCount > 0:
-            coords = self.drawResults(minionRectangles, self.game_image)
-            self.click(*coords[0], r=True)
-            clickMap = False
-            os.startfile('w.ahk')
 
         elif clickMap:
             self.click(1110, 440, r=True)
