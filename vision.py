@@ -61,6 +61,11 @@ class Pyla:
         self.continueBtn = cv2.imread('images/continueBtn.JPG')
         self.playAgainBtn = cv2.imread('images/playAgainBtn.JPG')
 
+    def __turn_of_bot(self):
+        if self.command == 'nothing':
+            self.command = 'buyItems'
+        else:
+            self.command = 'nothing'
 
     def checkIfGameEnded(self):
         """
