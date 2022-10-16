@@ -189,6 +189,13 @@ class Pyla:
             except:
                 pass
 
+    def extractRectangles(array):
+        rectangles = []
+        for loc in array:
+            rect = [int(loc[0]), int(loc[1]), 30, 30]
+            rectangles.append(rect)
+        return cv2.groupRectangles(rectangles, groupThreshold=3, eps=0.9)
+
     def playByFollowAlly(self):
         clickMap = True
         click_coords = []
