@@ -33,6 +33,8 @@ class Pyla:
         self.game_image = None
         self.inGame = True
         self.original_image = None
+        self.keyboard = Controller()
+        self.qCount = 0
         self.AI = {
             'nothing': lambda: True,
             'detectGameStart': self.detectGameStart,
@@ -217,6 +219,23 @@ class Pyla:
             os.startfile('w.ahk')
             if self.checkIfGameEnded():
                 return True
+
+        minionCoords = self.controller[self.findMinions](cropped_pic)
+        minionRectangles, weights = self.extractRectangles(minionCoords)
+        minionCount = len(minionRectangles)
+
+        if minionCount > 0:
+            self.qCount += 1
+            if self.qCount > 2:
+                os.startfile('w.ahk')
+                self.qCount = 0
+        self.keyboard.press('j')
+        time.sleep(0.1)
+        self.click(960, 540, r=True)
+        time.sleep(0.1)
+        self.keyboard.release('j')
+        print('clicked and pressed j')
+        time.sleep(1)
 
        
 
