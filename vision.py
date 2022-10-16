@@ -182,6 +182,8 @@ class Pyla:
             except:
                 pass
 
+    def playByFollowAlly(self):
+        pass    
 
     def buyItems(self):
         keyboard.startfile('p.ahk')
