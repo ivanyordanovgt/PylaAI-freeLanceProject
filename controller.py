@@ -13,11 +13,23 @@ import tkinter
 PylaStart = PylaStart('start')
 
 def play():
-    pass
+    result = ''
+    win_cap = WindowCapture()
+    while result is not True:
+        screenshot = win_cap.get_screenshot()
+        result = PylaAI.AIcontroller(screenshot)
+    PylaStart.progressState = 'findNewGame'
 
 
 def start():
-    pass
+    win_cap = WindowCapture()
+    cleanInfo = None
+    dotCounter = 0
+    info = None
+    while info is not True:
+        screenshot = win_cap.get_screenshot()
+        info = PylaStart.start(screenshot)
+
 
 
 count = 0
