@@ -99,6 +99,28 @@ class Pyla:
         #     return True
         return False
 
+    @staticmethod
+    def click(x, y, click=False, l=False, r=False):
+        win32api.SetCursorPos((x, y))
+
+        if l:
+            try:
+                win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0)
+                win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0)
+            except:
+                """
+                Sometimes win32api throws an error without any message
+                for no reason so we have to catch the error
+                """
+                pass
+        if r:
+            try:
+                win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTDOWN, 0, 0)
+                win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTUP, 0, 0)
+            except:
+                pass
+
+
     def buyItems(self):
         keyboard.startfile('p.ahk')
         time.sleep(0.3)
